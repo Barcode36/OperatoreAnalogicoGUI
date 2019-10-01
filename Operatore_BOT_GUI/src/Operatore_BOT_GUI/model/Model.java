@@ -56,21 +56,31 @@ public class Model {
 		}
 	}
 
-	public List<Azienda> ordineAziende(){
-		Map<String,Integer> variabili = new HashMap<String,Integer>();
-		for (Azienda azi : aziende) {
-			variabili.put(azi.getPartitaIVA(), 0);
-		}		
+	public ArrayList<Azienda> ordineAziende(int[] weights, String[] keywords){
 		
-		List<Azienda> aziendeOrdinate = new LinkedList<Azienda>();
-		for (Azienda a: aziende) {
-			for (Azienda b: aziende) {
-				
-				int punteggio = variabili.get(a.getPartitaIVA()) +3 ;
-				variabili.replace(a.getPartitaIVA(), punteggio);
-				
-			}
+		ArrayList<Azienda> aziendeOrdinate = new ArrayList<Azienda>();
+		int score_max = 0;
+		for (int w : weights) score_max += w;
+		
+		for (Azienda az : aziende) {
+			this.punteggioAzienda(az, weights, keywords);
+			aziendeOrdinate.add(az);
 		}
+
+		Collections.sort(aziendeOrdinate, new Comparator<Azienda> () {
+
+			@Override
+			public int compare(Azienda a1, Azienda a2) {
+				double s1 = a1.getScore(), s2 = a2.getScore();
+				
+				if (s1 == s2) return 0;
+				if (s1 < s2) return -1;
+				
+				return 1;
+			}
+			
+		});
+		
 		return aziendeOrdinate;
 		
 		
@@ -217,5 +227,66 @@ public class Model {
 		return azienda.getBrevetti();
 	}
 	
+	private double fatturatoMedio () {
+		double fat_tot = 0;
+		int count = 0;
+		for (Azienda az : aziende) {
+			fat_tot += az.getBilancioOfYear(2018).getRicavi();
+			count++;
+		}
+		return fat_tot/count;
+	}
 	
+	private double ricercaSviluppoMedio () {
+		double ric_tot = 0;
+		int count = 0;
+		for (Azienda az : aziende) {
+			ric_tot += az.getBilancioOfYear(2018).getInvestimentiReD();
+			count++;
+		}
+		return ric_tot/count;
+	}
+	
+	private int numMaxBrevetti () {
+		int max = 0;
+		
+		for (Azienda az : aziende) {
+			int size = az.getBrevetti().size();
+			if (size > max) max = size;
+		}
+		
+		return max;
+	}
+	
+	private int numMaxArticoli () {
+		int max = 0;
+		
+		for (Azienda az : aziende) {
+			int size = az.getArticoli().size();
+			if (size > max) max = size;
+		}
+		
+		return max;
+	}
+	
+	
+	private double punteggioAzienda (Azienda az, int[] weights, String[] keywords) {
+		double fatturato_medio = this.fatturatoMedio();
+		double ricercaSviluppo_medio = this.ricercaSviluppoMedio();
+		double score = 0;
+		double appalti, articoli, bilancio, brevetti, news, servizi, progetti;
+		
+		appalti = az.getAppaltiIndex(fatturato_medio);
+		articoli = az.getArticoliIndex(keywords, this.numMaxArticoli());
+		bilancio = az.getBilancioIndex(fatturato_medio, ricercaSviluppo_medio);
+		brevetti = az.getBrevettiIndex(this.numMaxBrevetti());
+		//news = az.getNewsIndex();
+		//servizi = az.getServiziIndex();
+		progetti = az.getProgettiIndex(fatturato_medio);
+		
+		
+		score = (weights[0]*appalti + weights[1]*articoli + weights[2]*bilancio + weights[3]*brevetti + weights[4]*progetti)/10;
+		az.setScore(score);
+		return score;
+	}
 }

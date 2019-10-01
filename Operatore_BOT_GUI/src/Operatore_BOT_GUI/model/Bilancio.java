@@ -24,7 +24,7 @@ public class Bilancio {
 	private float margineStrutturaSecondario;
 	private float currentRatio;
 	private float acidTest;
-	private float indiceLiquidità;
+	private float indiceLiquidita;
 	private float indiceIndebBreve;
 	private float debBancheFatturato;
 	private float ofFatturato;
@@ -61,7 +61,7 @@ public class Bilancio {
 			double redditoOperativo, double risultatoEsercizio, double capitaleCircNetto, double patrimonioNetto,
 			float ROI, float ROE, float ROS, float levaFinanziaria, float levaOperativa, float leverage,
 			float margineStrutturaPrimario, float margineStrutturaSecondario, float currentRatio, float acidTest,
-			float indiceLiquidità, float indiceIndebBreve, float debBancheFatturato, float ofFatturato, float GIV,
+			float indiceLiquidita, float indiceIndebBreve, float debBancheFatturato, float ofFatturato, float GIV,
 			float ricaviAddetto, float vaAddetto, float reAddetto, float cost_lav_addetto, float numAddetti,
 			float durataMediaCrediti, float durataMediaDebiti, float investimentiReD) {
 		super();
@@ -85,7 +85,7 @@ public class Bilancio {
 		this.margineStrutturaSecondario = margineStrutturaSecondario;
 		this.currentRatio = currentRatio;
 		this.acidTest = acidTest;
-		this.indiceLiquidità = indiceLiquidità;
+		this.indiceLiquidita = indiceLiquidita;
 		this.indiceIndebBreve = indiceIndebBreve;
 		this.debBancheFatturato = debBancheFatturato;
 		this.ofFatturato = ofFatturato;
@@ -276,12 +276,12 @@ public class Bilancio {
 		this.acidTest = acidTest;
 	}
 
-	public float getIndiceLiquidità() {
-		return indiceLiquidità;
+	public float getIndiceLiquidita() {
+		return indiceLiquidita;
 	}
 
-	public void setIndiceLiquidità(float indiceLiquidità) {
-		this.indiceLiquidità = indiceLiquidità;
+	public void setIndiceLiquidita(float indiceLiquidita) {
+		this.indiceLiquidita = indiceLiquidita;
 	}
 
 	public float getIndiceIndebBreve() {

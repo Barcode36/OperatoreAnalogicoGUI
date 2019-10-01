@@ -8,6 +8,8 @@ public class Azienda {
 		private String nomeAzienda;
 		private String ragioneSociale;
 		
+		private double score_temp = 0;
+		
 		private ArrayList<Brevetto> brevetti = new ArrayList<Brevetto>();
 		private ArrayList<Articolo> articoli = new ArrayList<Articolo>();
 		private ArrayList<Bilancio> bilanci = new ArrayList<Bilancio>();
@@ -67,18 +69,39 @@ public class Azienda {
 		
 		
 		// CALCOLO INDICI //////////////////////////////////////////////
-		public double getBrevettiIndex () {
+		public double getBrevettiIndex (int max_brevetti) {
+			// return MIN 0, MAX 1
 			
-			return brevetti.size();
+			return brevetti.size()/max_brevetti;
 		}
 		
-		public double getArticoliIndex () {
+		public double getArticoliIndex (String[] keywords, int max_articoli) {
+			// return MIN 0, MAX 1
+			int size = articoli.size();			
+			if (size == 0) return 0;
 			
-			return articoli.size();
+			if (keywords == null) return size/max_articoli;
+
+			int occurrences = 0;
+			
+			for (String key : keywords) {
+				
+				for (Articolo art : articoli) {
+					String[] words = art.getText().split(" ");
+					for (String word : words)
+						if (word.contains(key)) occurrences += 1;
+				}				
+			}
+			
+			double score = 0.2*(size/max_articoli) + 0.8*(occurrences/size);
+			
+			if (score > 1) return 1;
+			return score;
 		}
 		
 		public double getBilancioIndex (double fatturato_medio, double ricerca_media) {
-			// calcolato su FATTURATO, ROE, ROS, ROI, R&D, Liquidità
+			// calcolato su FATTURATO, ROE, ROS, ROI, R&D, Liquidita
+			// return MIN 0, MAX 1
 			Bilancio b2018 = this.getBilancioOfYear(2018);
 			double ROEmin = 0.05, ROEok = 0.07, ROEmax = 0.1;
 			double ROSmin = 0.03, ROSok = 0.06, ROSmax = 0.1;
@@ -91,7 +114,7 @@ public class Azienda {
 			double ROEscore = indexScore(b2018.getROE(), ROEmin, ROEok, ROEmax);
 			double ROSscore = indexScore(b2018.getROS(), ROSmin, ROSok, ROSmax);
 			double ROIscore = indexScore(b2018.getROI(), ROImin, ROIok, ROImax);
-			double LIQscore = indexScore(b2018.getIndiceLiquidità(), LIQmin, LIQok, LIQmax);
+			double LIQscore = indexScore(b2018.getIndiceLiquidita(), LIQmin, LIQok, LIQmax);
 			
 			double FATscore = indexScore(b2018.getRicavi()/fatturato_medio, FATmin, FATok, FATmax);
 			double RICscore = indexScore(b2018.getInvestimentiReD()/ricerca_media, RICmin, RICok, RICmax);
@@ -121,14 +144,34 @@ public class Azienda {
 			return servizi.size();
 		}
 		
-		public double getAppaltiIndex () {
+		public double getAppaltiIndex (double fat_medio) {
+			// return MIN 0, MAX 1
+			if (appalti.size() == 0) return 0;
 			
-			return appalti.size();
+			double total_value = 0;			
+			for (Appalto app : appalti) {
+				total_value += app.getValoreContratto();
+			}
+			
+			double score = total_value/(appalti.size()*fat_medio);
+			
+			if (score > 1) return 1;
+			return score;
 		}
 		
-		public double getProgettiIndex () {
+		public double getProgettiIndex (double fat_medio) {
+			// return MIN 0, MAX 1
+			if (progetti.size() == 0) return 0;
 			
-			return progetti.size();
+			double total_value = 0;			
+			for (Progetto prg : progetti) {
+				total_value += prg.getTotalCost();
+			}
+			
+			double score = total_value/(progetti.size()*fat_medio);
+			
+			if (score > 1) return 1;
+			return score;
 		}
 		
 		
@@ -172,6 +215,14 @@ public class Azienda {
 
 		public void setRagioneSociale(String ragioneSociale) {
 			this.ragioneSociale = ragioneSociale;
+		}
+		
+		public void setScore (double sc) {
+			this.score_temp = sc;
+		}
+		
+		public double getScore () {
+			return this.score_temp;
 		}
 		
 
@@ -313,7 +364,7 @@ public class Azienda {
 
 		@Override
 		public String toString() {
-			return "Azienda " + nomeAzienda+" "+ ragioneSociale + ", Partita iva "+ partitaIVA +";";
+			return  partitaIVA + " - " + nomeAzienda;
 		}
 		
 		

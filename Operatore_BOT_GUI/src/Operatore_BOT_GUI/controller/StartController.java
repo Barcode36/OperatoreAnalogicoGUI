@@ -52,7 +52,7 @@ public class StartController {
     	
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
 		AnchorPane root = (AnchorPane)loader.load();
-		homeController controller = loader.getController();
+		HomeController controller = loader.getController();
 		controller.setModel(model);
 		
 //    	Parent parent = FXMLLoader.load(getClass().getResource("Home.fxml"));

@@ -256,7 +256,7 @@ public class NewsController {
     void doTornaclassifica(ActionEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
     	AnchorPane root = (AnchorPane)loader.load();
-		homeController controller = loader.getController();
+		HomeController controller = loader.getController();
 		controller.setModel(model);
     	
 		Scene goToHome = new Scene(root);

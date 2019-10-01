@@ -24,11 +24,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class homeController {
+public class HomeController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -102,6 +103,9 @@ public class homeController {
     @FXML
     private Button btnAziendaHome;
 
+    @FXML
+    private TextField keywordsField;
+
     
     private Model model;
     
@@ -113,23 +117,42 @@ public class homeController {
     	Azienda azienda = model.getAzienda();
     	lblAzienda.setText(azienda.toString());
     	
-    	aziendeCompetitor=model.getAziendeCompetitorHome();
-    	if(aziendeCompetitor.size()>0) {
-    		btnCompetitor1.setText(aziendeCompetitor.get(0).toString());
-    		if(aziendeCompetitor.size()>1) {
-    			btnCompetitor2.setText(aziendeCompetitor.get(1).toString());
-    			if(aziendeCompetitor.size()>2) {
-    				btnCompetitor3.setText(aziendeCompetitor.get(2).toString());
-    				if(aziendeCompetitor.size()>3) {
-    					btnCompetitor4.setText(aziendeCompetitor.get(3).toString());
-    				}
-    			}
-    		}
-    	}
-    	
     	this.populateWeights();
     	
+    	String[] keywords = this.keywordsField.getText().split(", ");
+    	aziendeCompetitor = model.ordineAziende(this.weightsToModel(), keywords);
+    	
+//    	if(aziendeCompetitor.size()>0) {
+//    		btnCompetitor1.setText(aziendeCompetitor.get(0).toString());
+//    		if(aziendeCompetitor.size()>1) {
+//    			btnCompetitor2.setText(aziendeCompetitor.get(1).toString());
+//    			if(aziendeCompetitor.size()>2) {
+//    				btnCompetitor3.setText(aziendeCompetitor.get(2).toString());
+//    				if(aziendeCompetitor.size()>3) {
+//    					btnCompetitor4.setText(aziendeCompetitor.get(3).toString());
+//    				}
+//    			}
+//    		}
+//    	}
+    	
+    	
+    	
     }
+    
+    
+    private int[] weightsToModel() {
+    	int[] weights = new int[5];
+    	
+    	weights[0] = this.cmbPesiApp.getValue();
+    	weights[1] = this.cmbPesiArt.getValue();
+    	weights[2] = this.cmbPesiBil.getValue();
+    	weights[3] = this.cmbPesiBrv.getValue();
+    	weights[4] = this.cmbPesiPrg.getValue();
+
+    	
+    	return weights;
+    }
+    
     
     private void populateWeights () {
     	ArrayList<Integer> ints = new ArrayList<Integer>();
@@ -142,6 +165,12 @@ public class homeController {
     	this.cmbPesiBil.setItems(percentages);
     	this.cmbPesiBrv.setItems(percentages);
     	this.cmbPesiPrg.setItems(percentages);
+    	
+    	this.cmbPesiApp.setValue(percentages.get(4));
+    	this.cmbPesiArt.setValue(percentages.get(4));
+    	this.cmbPesiBil.setValue(percentages.get(4));
+    	this.cmbPesiBrv.setValue(percentages.get(4));
+    	this.cmbPesiPrg.setValue(percentages.get(4));
     }
 
     @FXML

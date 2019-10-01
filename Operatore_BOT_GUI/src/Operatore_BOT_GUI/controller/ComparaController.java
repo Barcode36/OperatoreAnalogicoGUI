@@ -1147,7 +1147,7 @@ public class ComparaController {
     	txtMSS16.setText(String.valueOf(bilancioAz2016.getMargineStrutturaSecondario()));
     	txtCurrentRatio16.setText(String.valueOf(bilancioAz2016.getCurrentRatio()));
     	txtAcidTest16.setText(String.valueOf(bilancioAz2016.getAcidTest()));
-    	txtIndLiquidita16.setText(String.valueOf(bilancioAz2016.getIndiceLiquidità()));
+    	txtIndLiquidita16.setText(String.valueOf(bilancioAz2016.getIndiceLiquidita()));
     	txtIndIndebBrev16.setText(String.valueOf(bilancioAz2016.getIndiceIndebBreve()));
     	txtDebBanche16.setText(String.valueOf(bilancioAz2016.getDebBancheFatturato()));
     	txtOnFin16.setText(String.valueOf(bilancioAz2016.getOfFatturato()));
@@ -1177,7 +1177,7 @@ public class ComparaController {
    		txtMSS17.setText(String.valueOf(bilancioAz2017.getMargineStrutturaSecondario()));
    		txtCurrentRatio17.setText(String.valueOf(bilancioAz2017.getCurrentRatio()));
    		txtAcidTest17.setText(String.valueOf(bilancioAz2017.getAcidTest()));
-   		txtIndLiquidita17.setText(String.valueOf(bilancioAz2017.getIndiceLiquidità()));
+   		txtIndLiquidita17.setText(String.valueOf(bilancioAz2017.getIndiceLiquidita()));
    		txtIndIndebBrev17.setText(String.valueOf(bilancioAz2017.getIndiceIndebBreve()));
    		txtDebBanche17.setText(String.valueOf(bilancioAz2017.getDebBancheFatturato()));
    		txtOnFin17.setText(String.valueOf(bilancioAz2017.getOfFatturato()));
@@ -1207,7 +1207,7 @@ public class ComparaController {
    		txtMSS18.setText(String.valueOf(bilancioAz2018.getMargineStrutturaSecondario()));
    		txtCurrentRatio18.setText(String.valueOf(bilancioAz2018.getCurrentRatio()));
    		txtAcidTest18.setText(String.valueOf(bilancioAz2018.getAcidTest()));
-   		txtIndLiquidita18.setText(String.valueOf(bilancioAz2018.getIndiceLiquidità()));
+   		txtIndLiquidita18.setText(String.valueOf(bilancioAz2018.getIndiceLiquidita()));
    		txtIndIndebBrev18.setText(String.valueOf(bilancioAz2018.getIndiceIndebBreve()));
    		txtDebBanche18.setText(String.valueOf(bilancioAz2018.getDebBancheFatturato()));
    		txtOnFin18.setText(String.valueOf(bilancioAz2018.getOfFatturato()));
@@ -1237,7 +1237,7 @@ public class ComparaController {
    		txtMSS161.setText(String.valueOf(bilancioComp2016.getMargineStrutturaSecondario()));
    		txtCurrentRatio161.setText(String.valueOf(bilancioComp2016.getCurrentRatio()));
    		txtAcidTest161.setText(String.valueOf(bilancioComp2016.getAcidTest()));
-   		txtIndLiquidita161.setText(String.valueOf(bilancioComp2016.getIndiceLiquidità()));
+   		txtIndLiquidita161.setText(String.valueOf(bilancioComp2016.getIndiceLiquidita()));
    		txtIndIndebBrev161.setText(String.valueOf(bilancioComp2016.getIndiceIndebBreve()));
    		txtDebBanche161.setText(String.valueOf(bilancioComp2016.getDebBancheFatturato()));
    		txtOnFin161.setText(String.valueOf(bilancioComp2016.getOfFatturato()));
@@ -1267,7 +1267,7 @@ public class ComparaController {
    		txtMSS171.setText(String.valueOf(bilancioComp2017.getMargineStrutturaSecondario()));
    		txtCurrentRatio171.setText(String.valueOf(bilancioComp2017.getCurrentRatio()));
    		txtAcidTest171.setText(String.valueOf(bilancioComp2017.getAcidTest()));
-   		txtIndLiquidita171.setText(String.valueOf(bilancioComp2017.getIndiceLiquidità()));
+   		txtIndLiquidita171.setText(String.valueOf(bilancioComp2017.getIndiceLiquidita()));
    		txtIndIndebBrev171.setText(String.valueOf(bilancioComp2017.getIndiceIndebBreve()));
    		txtDebBanche171.setText(String.valueOf(bilancioComp2017.getDebBancheFatturato()));
    		txtOnFin171.setText(String.valueOf(bilancioComp2017.getOfFatturato()));
@@ -1297,7 +1297,7 @@ public class ComparaController {
    		txtMSS181.setText(String.valueOf(bilancioComp2018.getMargineStrutturaSecondario()));
    		txtCurrentRatio181.setText(String.valueOf(bilancioComp2018.getCurrentRatio()));
    		txtAcidTest181.setText(String.valueOf(bilancioComp2018.getAcidTest()));
-   		txtIndLiquidita181.setText(String.valueOf(bilancioComp2018.getIndiceLiquidità()));
+   		txtIndLiquidita181.setText(String.valueOf(bilancioComp2018.getIndiceLiquidita()));
    		txtIndIndebBrev181.setText(String.valueOf(bilancioComp2018.getIndiceIndebBreve()));
    		txtDebBanche181.setText(String.valueOf(bilancioComp2018.getDebBancheFatturato()));
    		txtOnFin181.setText(String.valueOf(bilancioComp2018.getOfFatturato()));
@@ -1603,12 +1603,12 @@ private void drawChart2 () {
     	
     	String[] labels = {"Fatturato", "Reddito Op.", "Margine Str. Pr.", "R&D", "Risultato Es."};
     	SpiderChart chart = new SpiderChart(labels);
-    	float[] values1 = {Float.parseFloat(this.txtfatturato18.getText())/100,
+    	float[] values1 = {Float.parseFloat(this.txtfatturato18.getText()),
     				Float.parseFloat(this.txtRO18.getText()),
     				Float.parseFloat(this.txtMSP18.getText()),
     				Float.parseFloat(this.txtInvestimentiRD18.getText()),
     				Float.parseFloat(this.txtRE18.getText())};
-    	float[] values2 = {Float.parseFloat(this.txtfatturato181.getText())/100,
+    	float[] values2 = {Float.parseFloat(this.txtfatturato181.getText()),
 				Float.parseFloat(this.txtRO181.getText()),
 				Float.parseFloat(this.txtMSP181.getText()),
 				Float.parseFloat(this.txtInvestimentiRD181.getText()),
