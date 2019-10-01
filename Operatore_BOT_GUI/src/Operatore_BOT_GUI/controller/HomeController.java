@@ -118,10 +118,12 @@ public class HomeController {
     	lblAzienda.setText(azienda.toString());
     	
     	this.populateWeights();
+    	this.getRanking();
     	
-    	String[] keywords = this.keywordsField.getText().split(", ");
-    	aziendeCompetitor = model.ordineAziende(this.weightsToModel(), keywords);
-    	
+    	this.populateRanking();
+//    	for (Azienda az : aziendeCompetitor) {
+//    		System.out.println(az.getScore());
+//    	}
 //    	if(aziendeCompetitor.size()>0) {
 //    		btnCompetitor1.setText(aziendeCompetitor.get(0).toString());
 //    		if(aziendeCompetitor.size()>1) {
@@ -137,6 +139,21 @@ public class HomeController {
     	
     	
     	
+    }
+    
+    public void getRanking () {
+    	String[] keywords = this.keywordsField.getText().split(", ");
+    	aziendeCompetitor = model.ordineAziende(this.weightsToModel(), keywords);
+    	
+    	this.populateRanking();
+    }
+    
+    
+    private void populateRanking () {
+    	btnCompetitor1.setText(aziendeCompetitor.get(0).toString());
+    	btnCompetitor2.setText(aziendeCompetitor.get(1).toString());
+    	btnCompetitor3.setText(aziendeCompetitor.get(2).toString());
+    	btnCompetitor4.setText(aziendeCompetitor.get(3).toString());
     }
     
     

@@ -59,11 +59,13 @@ public class Model {
 	public ArrayList<Azienda> ordineAziende(int[] weights, String[] keywords){
 		
 		ArrayList<Azienda> aziendeOrdinate = new ArrayList<Azienda>();
-		int score_max = 0;
-		for (int w : weights) score_max += w;
+		int w_max = 0;
+		for (int w : weights)
+			if (w > w_max)
+				w_max = w;
 		
-		for (Azienda az : aziende) {
-			this.punteggioAzienda(az, weights, keywords);
+		for (Azienda az : this.getAziendeMenoSelezionata(azienda)) {
+			this.punteggioAzienda(az, weights, keywords, w_max);
 			aziendeOrdinate.add(az);
 		}
 
@@ -74,9 +76,9 @@ public class Model {
 				double s1 = a1.getScore(), s2 = a2.getScore();
 				
 				if (s1 == s2) return 0;
-				if (s1 < s2) return -1;
+				if (s1 < s2) return 1;
 				
-				return 1;
+				return -1;
 			}
 			
 		});
@@ -164,10 +166,13 @@ public class Model {
 	}
 	
 	public List<Azienda> getAziendeMenoSelezionata(Azienda azienda){
-//		List<Azienda> azs = this.aziende;
-//		azs.remove(azienda);
-//		return azs;
-		return aziende;
+		List<Azienda> azs = new ArrayList<Azienda>();
+
+		for (Azienda az : aziende)
+			if (az.getPartitaIVA().compareTo(azienda.getPartitaIVA())!=0)
+				azs.add(az);
+
+		return azs;
 	}
 
 	public void setAziende(List<Azienda> aziende) {
@@ -270,7 +275,7 @@ public class Model {
 	}
 	
 	
-	private double punteggioAzienda (Azienda az, int[] weights, String[] keywords) {
+	private double punteggioAzienda (Azienda az, int[] weights, String[] keywords, int w_max) {
 		double fatturato_medio = this.fatturatoMedio();
 		double ricercaSviluppo_medio = this.ricercaSviluppoMedio();
 		double score = 0;
@@ -285,8 +290,9 @@ public class Model {
 		progetti = az.getProgettiIndex(fatturato_medio);
 		
 		
-		score = (weights[0]*appalti + weights[1]*articoli + weights[2]*bilancio + weights[3]*brevetti + weights[4]*progetti)/10;
+		score = (weights[0]*appalti + weights[1]*articoli + weights[2]*bilancio + weights[3]*brevetti + weights[4]*progetti)/w_max;
 		az.setScore(score);
+		System.out.println(az + " " + score + "  :  " + appalti + " " + articoli + " " + bilancio);
 		return score;
 	}
 }

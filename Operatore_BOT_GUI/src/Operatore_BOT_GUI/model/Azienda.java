@@ -1,4 +1,5 @@
 package Operatore_BOT_GUI.model;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -218,11 +219,12 @@ public class Azienda {
 		}
 		
 		public void setScore (double sc) {
-			this.score_temp = sc;
+			this.score_temp = Math.round(sc*1e2)/1e2	;
 		}
 		
 		public double getScore () {
 			return this.score_temp;
+			
 		}
 		
 
