@@ -42,7 +42,7 @@ public class StartController {
     	cmbAzienda.getItems().add(0, null);
     }
     
-    List<Azienda> aziendeCompetitor;
+    //List<Azienda> aziendeCompetitor;
 
     
     @FXML

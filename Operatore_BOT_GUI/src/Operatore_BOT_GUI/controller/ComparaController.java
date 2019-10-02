@@ -17,6 +17,7 @@ import Operatore_BOT_GUI.model.Appalto;
 import Operatore_BOT_GUI.model.Articolo;
 import Operatore_BOT_GUI.model.Azienda;
 import Operatore_BOT_GUI.model.Bilancio;
+import Operatore_BOT_GUI.model.DialChart;
 import Operatore_BOT_GUI.model.Model;
 import Operatore_BOT_GUI.model.Progetto;
 import Operatore_BOT_GUI.model.SpiderChart;
@@ -1102,6 +1103,15 @@ public class ComparaController {
     @FXML
     private ImageView chart2;
     
+    @FXML
+    private ImageView dialChart1;
+    
+    @FXML
+    private ImageView dialChart2;
+    
+    @FXML // fx:id="txtCostTotProg16"
+    private TextField txtNumArt1, txtNumArt2, txtNumBrev1, txtNumBrev2;
+    
     Model model;
 
     
@@ -1553,27 +1563,16 @@ public class ComparaController {
    		 * numero backink e articoli
    		 */
    		
-   		List<Articolo> articoliAz = model.getArticoliAzienda(azienda);
-   		List<Articolo> articoliComp = model.getArticoliAzienda(competitor);
-   		
-   		int backlinkAz16 = 0;
-   		int backlinkAz17 = 0;
-   		int backlinkAz18 = 0;
-   		for (Articolo art: articoliAz) {
-   			if(art.getDate().endsWith("16") ) {
-   				backlinkAz16++;
-   			}
-   			if(art.getDate().endsWith("17") ) {
-   				backlinkAz17++;
-   			}
-   			if(art.getDate().endsWith("18") ) {
-   				backlinkAz18++;
-   			}
-   		}
+   		this.txtNumArt1.setText(String.valueOf(model.getAzienda().getArticoli().size()));
+   		this.txtNumArt2.setText(String.valueOf(model.getCompetitor().getArticoli().size()));
+   		this.txtNumBrev1.setText(String.valueOf(model.getAzienda().getBrevetti().size()));
+   		this.txtNumBrev2.setText(String.valueOf(model.getCompetitor().getBrevetti().size()));
+
    		
    		
    		this.drawChart1();
    		this.drawChart2();
+   		this.drawDialCharts();
    		
     }
     
@@ -1596,10 +1595,10 @@ public class ComparaController {
     	chart.insertDataSeries(lblAziendaComp.getText(), values1);
     	chart.insertDataSeries(btnCompetitorComp.getText(), values2);
     	
-    	this.chart1.setImage(chart.drawChart());
+    	this.chart1.setImage(chart.drawSpiderChart());
     }
     
-private void drawChart2 () {
+    private void drawChart2 () {
     	
     	String[] labels = {"Fatturato", "Reddito Op.", "Margine Str. Pr.", "R&D", "Risultato Es."};
     	SpiderChart chart = new SpiderChart(labels);
@@ -1617,7 +1616,18 @@ private void drawChart2 () {
     	chart.insertDataSeries(lblAziendaComp.getText(), values1);
     	chart.insertDataSeries(btnCompetitorComp.getText(), values2);
     	
-    	this.chart2.setImage(chart.drawChart());
+    	this.chart2.setImage(chart.drawSpiderChart());
+    }
+    
+    
+    private void drawDialCharts () {
+    	Azienda az1 = model.getAzienda(), az2 = model.getCompetitor();
+    	DialChart chart1 = new DialChart (az1.getScore());
+    	DialChart chart2 = new DialChart (az2.getScore());
+    	
+    	dialChart1.setImage(chart1.drawDialChart(5, model.getAzienda().getNomeAzienda()));
+    	dialChart2.setImage(chart2.drawDialChart(5, model.getCompetitor().getNomeAzienda()));
+
     }
 
 

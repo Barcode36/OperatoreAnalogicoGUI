@@ -12,10 +12,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.text.NumberFormat;
-
-import javax.imageio.ImageIO;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotRenderingInfo;
@@ -31,28 +28,28 @@ import javafx.scene.image.Image;
 
 public class SpiderChart {
 
-	private DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	private DefaultCategoryDataset category_dataset = new DefaultCategoryDataset();
 	private String[] labels;
 	
 	public SpiderChart (String[] lbs) {
 		this.labels = lbs;
 	}
+	
+	public SpiderChart () {
+		
+	}
 
 	
 	public void insertDataSeries (String azienda, float[] values) {
 		for (int i=0; i<labels.length; i++)
-			dataset.addValue(values[i], azienda, labels[i]);
+			category_dataset.addValue(values[i], azienda, labels[i]);
 	}
 	
 	
-	public Image drawChart () {
+	public Image drawSpiderChart () {
 		
-		final SpiderWebPlot plot = new SpiderWebPlot(dataset) {
-            //see patch 1588949 (http://sourceforge.net/tracker/index.php?func=detail&aid=1588949&group_id=15494&atid=315494)
-            
-            /**
-		 * 
-		 */
+		final SpiderWebPlot plot = new SpiderWebPlot(category_dataset) {
+
 		private static final long serialVersionUID = 1L;
 			//put this many labels on each axis.
             private int ticks = DEFAULT_TICKS;
@@ -349,6 +346,10 @@ drawRadarGrid(g2, radarArea,   catCount); //<<<!!! call new method to draw web g
 	    
 	    return null;
 	}
+	
+	
+	
+	
 	
 	
 }

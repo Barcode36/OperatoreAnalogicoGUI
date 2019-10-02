@@ -70,18 +70,25 @@ public class Azienda {
 		
 		
 		// CALCOLO INDICI //////////////////////////////////////////////
-		public double getBrevettiIndex (int max_brevetti) {
+		public double getBrevettiIndex (int brevetti_medi) {
 			// return MIN 0, MAX 1
+			double score = brevetti.size()/brevetti_medi;
 			
-			return brevetti.size()/max_brevetti;
+			if (score > 1) return 1;
+			return score;
 		}
 		
-		public double getArticoliIndex (String[] keywords, int max_articoli) {
+		public double getArticoliIndex (String[] keywords, int articoli_medi) {
 			// return MIN 0, MAX 1
-			int size = articoli.size();			
-			if (size == 0) return 0;
+			int size = articoli.size();
+			double score = 0;
+			if (size == 0) return score;
 			
-			if (keywords == null) return size/max_articoli;
+			score = size/articoli_medi;
+			
+			if (keywords == null)
+				if (score > 1) return 1;
+				else return score;
 
 			int occurrences = 0;
 			
@@ -94,7 +101,7 @@ public class Azienda {
 				}				
 			}
 			
-			double score = 0.2*(size/max_articoli) + 0.8*(occurrences/size);
+			score = 0.2*(size/articoli_medi) + 0.8*(occurrences/size);
 			
 			if (score > 1) return 1;
 			return score;

@@ -68,6 +68,8 @@ public class Model {
 			this.punteggioAzienda(az, weights, keywords, w_max);
 			aziendeOrdinate.add(az);
 		}
+		
+		this.punteggioAzienda(azienda, weights, keywords, w_max);
 
 		Collections.sort(aziendeOrdinate, new Comparator<Azienda> () {
 
@@ -134,11 +136,11 @@ public class Model {
 	}
 	
 	
-	
-	public List<Azienda> getAziendeCompetitorHome() {
-		return aziendeCompetitorHome;
-	}
-
+//	
+//	public List<Azienda> getAziendeCompetitorHome() {
+//		return aziendeCompetitorHome;
+//	}
+//
 	public void setAziendeCompetitorHome(List<Azienda> aziendeCompetitorHome) {
 		this.aziendeCompetitorHome = aziendeCompetitorHome;
 	}
@@ -235,7 +237,7 @@ public class Model {
 	private double fatturatoMedio () {
 		double fat_tot = 0;
 		int count = 0;
-		for (Azienda az : aziende) {
+		for (Azienda az : this.aziende) {
 			fat_tot += az.getBilancioOfYear(2018).getRicavi();
 			count++;
 		}
@@ -245,33 +247,31 @@ public class Model {
 	private double ricercaSviluppoMedio () {
 		double ric_tot = 0;
 		int count = 0;
-		for (Azienda az : aziende) {
+		for (Azienda az : this.aziende) {
 			ric_tot += az.getBilancioOfYear(2018).getInvestimentiReD();
 			count++;
 		}
 		return ric_tot/count;
 	}
 	
-	private int numMaxBrevetti () {
-		int max = 0;
+	private int numBrevettiMedi () {
+		int tot = 0;
 		
-		for (Azienda az : aziende) {
-			int size = az.getBrevetti().size();
-			if (size > max) max = size;
+		for (Azienda az : this.aziende) {
+			tot += az.getBrevetti().size();
 		}
 		
-		return max;
+		return tot/this.aziende.size();
 	}
 	
-	private int numMaxArticoli () {
-		int max = 0;
+	private int numArticoliMedi () {
+		int tot = 0;
 		
-		for (Azienda az : aziende) {
-			int size = az.getArticoli().size();
-			if (size > max) max = size;
+		for (Azienda az : this.aziende) {
+			tot += az.getArticoli().size();
 		}
 		
-		return max;
+		return tot/this.aziende.size();
 	}
 	
 	
@@ -281,16 +281,19 @@ public class Model {
 		double score = 0;
 		double appalti, articoli, bilancio, brevetti, news, servizi, progetti;
 		
+		int sum_weights = 0;
+		for (int w : weights) sum_weights += w;
+		
 		appalti = az.getAppaltiIndex(fatturato_medio);
-		articoli = az.getArticoliIndex(keywords, this.numMaxArticoli());
+		articoli = az.getArticoliIndex(keywords, this.numArticoliMedi());
 		bilancio = az.getBilancioIndex(fatturato_medio, ricercaSviluppo_medio);
-		brevetti = az.getBrevettiIndex(this.numMaxBrevetti());
+		brevetti = az.getBrevettiIndex(this.numBrevettiMedi());
 		//news = az.getNewsIndex();
 		//servizi = az.getServiziIndex();
 		progetti = az.getProgettiIndex(fatturato_medio);
 		
 		
-		score = (weights[0]*appalti + weights[1]*articoli + weights[2]*bilancio + weights[3]*brevetti + weights[4]*progetti)/w_max;
+		score = 5*(weights[0]*appalti + weights[1]*articoli + weights[2]*bilancio + weights[3]*brevetti + weights[4]*progetti)/sum_weights;
 		az.setScore(score);
 		System.out.println(az + " " + score + "  :  " + appalti + " " + articoli + " " + bilancio);
 		return score;
