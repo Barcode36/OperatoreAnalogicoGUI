@@ -28,8 +28,13 @@ public class Model {
 		AppaltoDAO appDAO = new AppaltoDAO();
 		ProdottoServizioDAO servDAO = new ProdottoServizioDAO();
 		ProgettoDAO prgDAO = new ProgettoDAO();
+		NewsDAO nsDAO = new NewsDAO();
 
 		this.aziende = dao.getTutteLeAziende();
+		
+		for (Azienda az : aziende) {
+			nsDAO.getNewsAzienda(az);
+		}
 		
 		for (Azienda az : aziende) {
 			bilancioDAO.getBilanciByAzienda(az);
